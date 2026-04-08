@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About — Kenechukwu{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <h1 class="page-title reveal">About <span class="accent">Me</span></h1>
+  <p class="page-sub reveal">The person behind the code</p>
+</section>
+
+<section class="section about-section">
+  <div class="about-grid">
+    <div class="about-photo reveal">
+      <div class="photo-frame">
+        <!-- Replace with your actual photo: <img src="{% static 'images/me.jpg' %}" alt="Kenechukwu"> -->
+       <img src="{% static 'images/me.png' %}" alt="Kenechukwu">
+      </div>
+      <div class="about-quick">
+        <div class="quick-item"><span class="qi-label">Based in</span><span>Owerri, Nigeria</span></div>
+        <div class="quick-item"><span class="qi-label">University</span><span>FUTO</span></div>
+        <div class="quick-item"><span class="qi-label">Major</span><span>Electrical Engineering</span></div>
+        <div class="quick-item"><span class="qi-label">Focus</span><span>Full Stack Web Dev</span></div>
+      </div>
+    </div>
+    <div class="about-text reveal delay-1">
+      <h2>Hi, I'm Kenechukwu 👋</h2>
+      <p>
+        I'm a final-year Electrical Engineering student at the Federal University of Technology,
+        Owerri (FUTO), but my real passion lives at the intersection of code and design.
+      </p>
+      <p>
+        I build web applications using Python and Django on the backend, with clean HTML, CSS,
+        and JavaScript on the front. I believe great software isn't just functional, it's
+        thoughtful, fast, and honest about what it does.
+      </p>
+      <p>
+        When I'm not studying circuits or building apps, I'm reading about digital business,
+        running my own online products, or playing GTA V. I approach everything — whether
+        engineering problems or side projects, with the same mindset: understand the system,
+        then improve it.
+      </p>
+      <a href="{% static 'files/resume.pdf' %}" class="btn-primary" download>Download Resume</a>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="section skills-section">
+  <h2 class="section-title reveal">Skills & Tools</h2>
+  <div class="skills-grid">
+    {% for skill in skills %}
+    <div class="skill-item reveal">
+      <div class="skill-header">
+        <span class="skill-name">{{ skill.name }}</span>
+        <span class="skill-percent">{{ skill.level }}%</span>
+      </div>
+      <div class="skill-bar">
+        <div class="skill-fill" data-width="{{ skill.level }}"></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- WHAT I DO -->
+<section class="section services-section">
+  <h2 class="section-title reveal">What I Build</h2>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">🌐</div>
+      <h3>Web Applications</h3>
+      <p>Full stack Django apps — from database design to deployed URL. Clean, functional, and secure.</p>
+    </div>
+    <div class="service-card reveal delay-1">
+      <div class="service-icon">🎨</div>
+      <h3>Frontend Interfaces</h3>
+      <p>Responsive HTML/CSS/JS layouts that look intentional on every screen size.</p>
+    </div>
+    <div class="service-card reveal delay-2">
+      <div class="service-icon">🔧</div>
+      <h3>Backend Systems</h3>
+      <p>Django REST views, models, admin panels, authentication, and email systems.</p>
+    </div>
+    <div class="service-card reveal delay-3">
+      <div class="service-icon">🚀</div>
+      <h3>Deployment</h3>
+      <p>Pushing to GitHub, deploying on Railway or Render, configuring domains and environment variables.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

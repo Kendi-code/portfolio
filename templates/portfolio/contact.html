@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact — Kenechukwu{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <h1 class="page-title reveal">Get In <span class="accent">Touch</span></h1>
+  <p class="page-sub reveal">I read every message. I reply to most.</p>
+</section>
+
+<section class="section contact-section">
+  <div class="contact-grid">
+
+    <div class="contact-info reveal">
+      <h2>Let's talk</h2>
+      <p>Whether you have a project idea, want to collaborate, or just want to say hello — my inbox is open.</p>
+      <div class="contact-methods">
+        <div class="contact-method">
+          <span class="cm-icon">📧</span>
+          <div>
+            <span class="cm-label">Email</span>
+            <a href="mailto:itzkendi5@gmail.com">itzkendi5@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-method">
+          <span class="cm-icon">💻</span>
+          <div>
+            <span class="cm-label">GitHub</span>
+            <a href="https://github.com/Kendi-code/-Kendi-code-Myproject.com" target="_blank" rel="noopener">github.com/yourusername</a>
+          </div>
+        </div>
+        <div class="contact-method">
+          <span class="cm-icon">🔗</span>
+          <div>
+            <span class="cm-label">LinkedIn</span>
+            <a href="https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fkenechukwu-atuokoye-75a87a280%3Futm_source%3Dshare%26utm_campaign%3Dshare_via%26utm_content%3Dprofile%26utm_medium%3Dandroid_app%26fbclid%3DIwZXh0bgNhZW0CMTAAYnJpZBExYmZFRnMybVFCV1NwUk1XWHNydGMGYXBwX2lkEDIyMjAzOTE3ODgyMDA4OTIAAR7B3_etQhxb9RTqgcMIwU_txozgwuuR3N07XAaAZ49Ld13wzF-7pIK30Y1ttw_aem_JcAgc131JqWpYGR5gYES8w&h=AT6q7tZxycn5-DbNKXn60I-_x5TwZxsZMtvfNHv94if02KyIitxZE0FHFCRUUBTdfqCeRvspSln4jyhJWpb08wH-_qdkHPc35eJjnaLGIbKHHfbqnV80BViDGthgrHMJnoBKGQ" target="_blank" rel="noopener">linkedin.com/in/yourprofile</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form class="contact-form reveal delay-1" method="POST" action="{% url 'contact' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" placeholder="John Doe" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="john@example.com" required>
+      </div>
+      <div class="form-group">
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" placeholder="Project collaboration" required>
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="6" placeholder="Tell me about your project or idea..." required></textarea>
+      </div>
+      <button type="submit" class="btn-primary full-width">Send Message →</button>
+    </form>
+
+  </div>
+</section>
+{% endblock %}

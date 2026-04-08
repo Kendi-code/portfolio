@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Kenechukwu — Full Stack Developer{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero">
+  <div class="hero-content">
+    <p class="hero-greeting reveal">Hello, I'm</p>
+    <h1 class="hero-name reveal delay-1">Atuokoye<br><span class="accent">Kenechukwu</span></h1>
+    <p class="hero-role reveal delay-2">
+      <span class="typewriter" id="typewriter"></span><span class="cursor">|</span>
+    </p>
+    <p class="hero-description reveal delay-3">
+      Electrical Engineering student at FUTO who builds real things for the web.
+      Clean code. Purposeful design. Always learning.
+    </p>
+    <div class="hero-actions reveal delay-4">
+      <a href="{% url 'projects' %}" class="btn-primary">View My Work</a>
+      <a href="{% url 'contact' %}" class="btn-outline">Get In Touch</a>
+    </div>
+  </div>
+  <div class="hero-visual reveal delay-2">
+    <div class="code-block">
+      <div class="code-header">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+        <span class="code-filename">kene.py</span>
+      </div>
+      <pre class="code-body"><span class="kw">class</span> <span class="cls">Developer</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        self.name = <span class="str">"Kenechukwu"</span>
+        self.skills = [
+            <span class="str">"HTML"</span>, <span class="str">"CSS"</span>,
+            <span class="str">"JavaScript"</span>,
+            <span class="str">"Python"</span>, <span class="str">"Django"</span>
+        ]
+        self.status = <span class="str">"open to work"</span>
+        self.learning = <span class="str">"always"</span>
+
+    <span class="kw">def</span> <span class="fn">build</span>(self, idea):
+        <span class="kw">return</span> <span class="str">"shipped 🚀"</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED PROJECTS -->
+{% if projects %}
+<section class="section projects-preview">
+  <div class="section-header">
+    <h2 class="section-title reveal">Featured Projects</h2>
+    <p class="section-sub reveal">Things I've built from scratch</p>
+  </div>
+  <div class="projects-grid">
+    {% for project in projects %}
+    <div class="project-card reveal">
+      {% if project.image %}
+        <div class="project-img">
+          <img src="{{ project.image.url }}" alt="{{ project.title }}">
+        </div>
+      {% else %}
+        <div class="project-img project-img-placeholder">
+          <span>{{ project.title|first }}</span>
+        </div>
+      {% endif %}
+      <div class="project-info">
+        <h3>{{ project.title }}</h3>
+        <p>{{ project.description|truncatewords:20 }}</p>
+        <div class="project-tags">
+          {% for tag in project.get_tags_list %}
+            <span class="tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+        <div class="project-links">
+          <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="link-btn">GitHub →</a>
+          {% if project.live_url %}
+            <a href="{{ project.live_url }}" target="_blank" rel="noopener" class="link-btn live">Live →</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="section-footer">
+    <a href="{% url 'projects' %}" class="btn-outline">See All Projects</a>
+  </div>
+</section>
+{% endif %}
+
+<!-- LATEST BLOG POSTS -->
+{% if posts %}
+<section class="section blog-preview">
+  <div class="section-header">
+    <h2 class="section-title reveal">From The Blog</h2>
+    <p class="section-sub reveal">Thoughts on tech, learning, and building</p>
+  </div>
+  <div class="posts-grid">
+    {% for post in posts %}
+    <a href="{% url 'blog_detail' post.slug %}" class="post-card reveal">
+      {% if post.image %}
+      <div class="post-card-image">
+        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+      </div>
+      {% endif %}
+      <span class="post-date">{{ post.created_at|date:"d M Y" }}</span>
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.excerpt }}</p>
+      <span class="read-more">Read more →</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<!-- CTA SECTION -->
+<section class="section cta-section">
+  <div class="cta-inner reveal">
+    <h2>Have a project in mind?</h2>
+    <p>I'm available for freelance work and collaboration. Let's build something.</p>
+    <a href="{% url 'contact' %}" class="btn-primary large">Start a Conversation</a>
+  </div>
+</section>
+
+{% endblock %}
+
+{% if post.image %}
+<div class="blog-hero-image">
+  <img src="{{ post.image.url }}" alt="{{ post.title }}">
+</div>
+{% endif %}

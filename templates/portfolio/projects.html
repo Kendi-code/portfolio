@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Projects — Kenechukwu{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <h1 class="page-title reveal">My <span class="accent">Projects</span></h1>
+  <p class="page-sub reveal">Things I've built — real code, real repos</p>
+</section>
+
+<section class="section">
+  {% if projects %}
+  <div class="projects-grid full">
+    {% for project in projects %}
+    <div class="project-card reveal">
+      {% if project.image %}
+        <div class="project-img">
+          <img src="{{ project.image.url }}" alt="{{ project.title }}">
+        </div>
+      {% else %}
+        <div class="project-img project-img-placeholder">
+          <span>{{ project.title|first }}</span>
+        </div>
+      {% endif %}
+      <div class="project-info">
+        {% if project.featured %}
+          <span class="featured-badge">★ Featured</span>
+        {% endif %}
+        <h3>{{ project.title }}</h3>
+        <p>{{ project.description }}</p>
+        <div class="project-tags">
+          {% for tag in project.get_tags_list %}
+            <span class="tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+        <div class="project-links">
+          <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="link-btn">GitHub →</a>
+          {% if project.live_url %}
+            <a href="{{ project.live_url }}" target="_blank" rel="noopener" class="link-btn live">Live Demo →</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <p>Projects coming soon. Check back shortly!</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }} — Kenechukwu{% endblock %}
+
+{% block content %}
+
+<section class="page-hero narrow">
+  <p class="post-meta-top reveal">{{ post.created_at|date:"d F Y" }}</p>
+  <h1 class="page-title reveal">{{ post.title }}</h1>
+  <p class="page-sub reveal">{{ post.excerpt }}</p>
+</section>
+
+<section class="section">
+
+  {% if post.image %}
+  <div class="blog-hero-image reveal">
+    <img src="{{ post.image.url }}" alt="{{ post.title }}">
+  </div>
+  {% endif %}
+
+  <article class="blog-article reveal">
+    {{ post.body|linebreaks }}
+  </article>
+
+  <div class="blog-back">
+    <a href="{% url 'blog_list' %}" class="btn-outline">← Back to Blog</a>
+  </div>
+
+</section>
+
+{% endblock %}

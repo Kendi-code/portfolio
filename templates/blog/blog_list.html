@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog — Kenechukwu{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <h1 class="page-title reveal">The <span class="accent">Blog</span></h1>
+  <p class="page-sub reveal">Notes on code, learning, and building things that work</p>
+</section>
+
+<section class="section">
+  {% if posts %}
+  <div class="posts-list">
+    {% for post in posts %}
+    <a href="{% url 'blog_detail' post.slug %}" class="post-row reveal">
+      {% if post.image %}
+      <div class="post-row-thumb">
+        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+      </div>
+      {% else %}
+      <div class="post-row-thumb post-row-thumb-placeholder">
+        <span>{{ post.title|first }}</span>
+      </div>
+      {% endif %}
+      <div class="post-row-content">
+        <div class="post-row-date">{{ post.created_at|date:"d M Y" }}</div>
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.excerpt }}</p>
+      </div>
+      <span class="post-arrow">→</span>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <p>No posts yet. First one coming soon.</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}
