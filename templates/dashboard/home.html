@@ -1,0 +1,61 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}Overview{% endblock %}
+{% block page_title %}Overview{% endblock %}
+
+{% block content %}
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-label">PROJECTS</div>
+    <div class="stat-value">{{ stats.projects }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">BLOG POSTS</div>
+    <div class="stat-value">{{ stats.posts }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">MESSAGES</div>
+    <div class="stat-value">{{ stats.messages }}</div>
+  </div>
+  <div class="stat-card {% if stats.unread > 0 %}highlight{% endif %}">
+    <div class="stat-label">UNREAD</div>
+    <div class="stat-value">{{ stats.unread }}</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <span class="card-title">Recent Messages</span>
+    <a href="{% url 'dashboard_messages' %}" class="btn btn-ghost btn-sm">View All</a>
+  </div>
+  {% if recent_messages %}
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th><th>Subject</th><th>Date</th><th>Status</th><th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for msg in recent_messages %}
+        <tr>
+          <td class="td-title">{{ msg.name }}</td>
+          <td>{{ msg.subject }}</td>
+          <td>{{ msg.sent_at|date:"d M Y" }}</td>
+          <td>
+            {% if msg.read %}
+              <span class="badge badge-green">Read</span>
+            {% else %}
+              <span class="badge badge-yellow">Unread</span>
+            {% endif %}
+          </td>
+          <td><a href="{% url 'dashboard_message_detail' msg.pk %}" class="btn btn-ghost btn-sm">Open</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p style="color: var(--text-faint); font-family: var(--mono); font-size: 0.85rem;">No messages yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

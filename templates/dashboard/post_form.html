@@ -1,0 +1,47 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}{{ action }} Post{% endblock %}
+{% block page_title %}{{ action }} Blog Post{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 800px;">
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label>Post Title *</label>
+      <input type="text" name="title" value="{{ post.title|default:'' }}" placeholder="e.g. What I Learned Building With Django" required>
+    </div>
+
+    <div class="form-group">
+      <label>Excerpt * (one sentence summary shown on blog list)</label>
+      <input type="text" name="excerpt" value="{{ post.excerpt|default:'' }}" placeholder="Short summary of this post...">
+    </div>
+
+    <div class="form-group">
+      <label>Body * (full post content)</label>
+      <textarea name="body" style="min-height: 320px;" placeholder="Write your full post here...">{{ post.body|default:'' }}</textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Cover Image (optional)</label>
+      <input type="file" name="image" accept="image/*">
+      {% if post.image %}
+      <div class="current-image">
+        <p>Current image:</p>
+        <img src="{{ post.image.url }}" alt="Current">
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="form-check" style="margin-bottom: 20px;">
+      <input type="checkbox" name="published" id="published" {% if post.published %}checked{% endif %}>
+      <label for="published">Publish immediately (uncheck to save as draft)</label>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-accent">{{ action }} Post</button>
+      <a href="{% url 'dashboard_posts' %}" class="btn btn-ghost">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

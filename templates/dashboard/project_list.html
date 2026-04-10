@@ -1,0 +1,43 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}Projects{% endblock %}
+{% block page_title %}Projects{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <span class="card-title">All Projects ({{ projects.count }})</span>
+    <a href="{% url 'dashboard_project_add' %}" class="btn btn-accent btn-sm">+ Add Project</a>
+  </div>
+  {% if projects %}
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Title</th><th>Tags</th><th>Featured</th><th>Order</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        {% for project in projects %}
+        <tr>
+          <td class="td-title">{{ project.title }}</td>
+          <td>{{ project.tags|truncatechars:40 }}</td>
+          <td>
+            {% if project.featured %}
+              <span class="badge badge-green">Yes</span>
+            {% else %}
+              <span class="badge badge-red">No</span>
+            {% endif %}
+          </td>
+          <td style="font-family: var(--mono); font-size: 0.82rem;">{{ project.order }}</td>
+          <td style="display: flex; gap: 8px;">
+            <a href="{% url 'dashboard_project_edit' project.pk %}" class="btn btn-ghost btn-sm">Edit</a>
+            <a href="{% url 'dashboard_project_delete' project.pk %}" class="btn btn-danger btn-sm">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p style="color: var(--text-faint); font-family: var(--mono); font-size: 0.85rem;">No projects yet. Add your first one.</p>
+  {% endif %}
+</div>
+{% endblock %}

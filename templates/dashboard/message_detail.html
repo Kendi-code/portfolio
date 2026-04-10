@@ -1,0 +1,42 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}Message from {{ msg.name }}{% endblock %}
+{% block page_title %}Message Detail{% endblock %}
+
+{% block content %}
+<div style="max-width: 720px;">
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">From: {{ msg.name }}</span>
+      <div style="display: flex; gap: 8px;">
+        <a href="mailto:{{ msg.email }}" class="btn btn-accent btn-sm">Reply via Email</a>
+        <a href="{% url 'dashboard_message_delete' msg.pk %}" class="btn btn-danger btn-sm">Delete</a>
+      </div>
+    </div>
+
+    <div class="msg-meta">
+      <div class="msg-meta-item">
+        <div class="msg-meta-label">FROM</div>
+        <div class="msg-meta-value">{{ msg.name }}</div>
+      </div>
+      <div class="msg-meta-item">
+        <div class="msg-meta-label">EMAIL</div>
+        <div class="msg-meta-value">{{ msg.email }}</div>
+      </div>
+      <div class="msg-meta-item">
+        <div class="msg-meta-label">SUBJECT</div>
+        <div class="msg-meta-value">{{ msg.subject }}</div>
+      </div>
+      <div class="msg-meta-item">
+        <div class="msg-meta-label">DATE</div>
+        <div class="msg-meta-value">{{ msg.sent_at|date:"d F Y, H:i" }}</div>
+      </div>
+    </div>
+
+    <div class="msg-body">{{ msg.message }}</div>
+
+    <div style="margin-top: 24px;">
+      <a href="{% url 'dashboard_messages' %}" class="btn btn-ghost">← Back to Messages</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

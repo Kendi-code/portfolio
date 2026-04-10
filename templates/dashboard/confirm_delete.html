@@ -1,0 +1,15 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}Delete {{ type }}{% endblock %}
+{% block page_title %}Delete {{ type }}{% endblock %}
+
+{% block content %}
+<div class="confirm-box">
+  <h2>Delete {{ type }}?</h2>
+  <p>You are about to delete <strong style="color: var(--text);">{{ item }}</strong>. This cannot be undone.</p>
+  <form method="POST" style="display: flex; gap: 12px; justify-content: center;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a href="{% url cancel_url %}" class="btn btn-ghost">Cancel</a>
+  </form>
+</div>
+{% endblock %}
