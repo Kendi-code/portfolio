@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -11,28 +11,56 @@
   <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head> 
+  <script>
+    (function() {
+      const saved = localStorage.getItem('theme') || 'dark';
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else if (saved === 'system') {
+        document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+</head>
 <body>
 
-  <!-- Noise overlay for texture -->
   <div class="noise-overlay"></div>
 
-  <!-- Navigation -->
   <nav class="navbar" id="navbar">
     <a href="{% url 'home' %}" class="nav-logo">KENDI-CODE<span>.</span></a>
+
     <ul class="nav-links" id="navLinks">
       <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a></li>
       <li><a href="{% url 'about' %}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a></li>
       <li><a href="{% url 'projects' %}" class="{% if request.resolver_match.url_name == 'projects' %}active{% endif %}">Projects</a></li>
       <li><a href="{% url 'blog_list' %}" class="{% if request.resolver_match.url_name == 'blog_list' %}active{% endif %}">Blog</a></li>
       <li><a href="{% url 'contact' %}" class="nav-cta {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a></li>
+
+      <!-- Theme toggle inside mobile menu -->
+      <li class="mobile-theme-item">
+        <div class="theme-toggle">
+          <button class="theme-btn" data-mode="light">Light</button>
+          <button class="theme-btn" data-mode="system">Auto</button>
+          <button class="theme-btn" data-mode="dark">Dark</button>
+        </div>
+      </li>
     </ul>
+
+    <!-- Theme toggle desktop navbar -->
+    <div class="theme-toggle theme-toggle-desktop" id="themeToggle">
+      <button class="theme-btn" data-mode="light">Light</button>
+      <button class="theme-btn" data-mode="system">Auto</button>
+      <button class="theme-btn" data-mode="dark">Dark</button>
+    </div>
+
     <button class="hamburger" id="hamburger" aria-label="Toggle menu">
       <span></span><span></span><span></span>
     </button>
   </nav>
 
-  <!-- Main content -->
   <main>
     {% if messages %}
       <div class="messages-container">
@@ -44,7 +72,6 @@
     {% block content %}{% endblock %}
   </main>
 
-  <!-- Footer -->
   <footer class="footer">
     <div class="footer-inner">
       <p class="footer-name">Atuokoye Kenechukwu</p>
@@ -52,7 +79,7 @@
       <div class="footer-links">
         <a href="https://github.com/Kendi-code/-Kendi-code-Myproject.com" target="_blank" rel="noopener">GitHub</a>
         <a href="mailto:itzkendi5@gmail.com">Email</a>
-        <a href="https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fkenechukwu-atuokoye-75a87a280%3Futm_source%3Dshare%26utm_campaign%3Dshare_via%26utm_content%3Dprofile%26utm_medium%3Dandroid_app%26fbclid%3DIwZXh0bgNhZW0CMTAAYnJpZBExYmZFRnMybVFCV1NwUk1XWHNydGMGYXBwX2lkEDIyMjAzOTE3ODgyMDA4OTIAAR7B3_etQhxb9RTqgcMIwU_txozgwuuR3N07XAaAZ49Ld13wzF-7pIK30Y1ttw_aem_JcAgc131JqWpYGR5gYES8w&h=AT6q7tZxycn5-DbNKXn60I-_x5TwZxsZMtvfNHv94if02KyIitxZE0FHFCRUUBTdfqCeRvspSln4jyhJWpb08wH-_qdkHPc35eJjnaLGIbKHHfbqnV80BViDGthgrHMJnoBKGQ" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://linkedin.com/in/kenechukwu-atuokoye-75a87a280" target="_blank" rel="noopener">LinkedIn</a>
       </div>
       <p class="footer-copy">© 2026 Atuokoye Kenechukwu. Built with Django.</p>
     </div>

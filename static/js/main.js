@@ -2,13 +2,58 @@
    PORTFOLIO — main.js
 ============================================= */
 
-// === CUSTOM CURSOR ===
+/* === THEME SYSTEM === */
+(function() {
+  const root = document.documentElement;
+
+  function applyTheme(mode) {
+    if (mode === 'dark') {
+      root.setAttribute('data-theme', 'dark');
+    } else if (mode === 'light') {
+      root.setAttribute('data-theme', 'light');
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      root.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+    }
+  }
+
+  function setActiveButton(mode) {
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.mode === mode);
+    });
+  }
+
+  function setTheme(mode) {
+    localStorage.setItem('theme', mode);
+    applyTheme(mode);
+    setActiveButton(mode);
+  }
+
+  const saved = localStorage.getItem('theme') || 'dark';
+  applyTheme(saved);
+
+  document.addEventListener('DOMContentLoaded', function() {
+    setActiveButton(saved);
+
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+      btn.addEventListener('click', () => setTheme(btn.dataset.mode));
+    });
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (localStorage.getItem('theme') === 'system') {
+        applyTheme('system');
+      }
+    });
+  });
+})();
+
+/* === CUSTOM CURSOR === */
 document.addEventListener('mousemove', (e) => {
   document.body.style.setProperty('--cx', e.clientX + 'px');
   document.body.style.setProperty('--cy', e.clientY + 'px');
 });
 
-// === NAVBAR SCROLL EFFECT ===
+/* === NAVBAR SCROLL EFFECT === */
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
   if (window.scrollY > 40) {
@@ -18,16 +63,15 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// === HAMBURGER MENU ===
+/* === HAMBURGER MENU === */
 const hamburger = document.getElementById('hamburger');
 const navLinks  = document.getElementById('navLinks');
 
 if (hamburger && navLinks) {
   hamburger.addEventListener('click', () => {
     navLinks.classList.toggle('open');
-    // Animate hamburger bars into X
-    const spans = hamburger.querySelectorAll('span');
     hamburger.classList.toggle('active');
+    const spans = hamburger.querySelectorAll('span');
     if (hamburger.classList.contains('active')) {
       spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
       spans[1].style.opacity   = '0';
@@ -39,7 +83,6 @@ if (hamburger && navLinks) {
     }
   });
 
-  // Close nav when a link is clicked
   navLinks.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       navLinks.classList.remove('open');
@@ -52,7 +95,7 @@ if (hamburger && navLinks) {
   });
 }
 
-// === SCROLL REVEAL ===
+/* === SCROLL REVEAL === */
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -63,14 +106,12 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-// === SKILL BAR ANIMATION ===
-// Runs once when skill bars scroll into view
+/* === SKILL BAR ANIMATION === */
 const skillObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       const fill = entry.target;
       const width = fill.dataset.width;
-      // Short delay so the reveal animation plays first
       setTimeout(() => {
         fill.style.width = width + '%';
       }, 300);
@@ -81,7 +122,7 @@ const skillObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.skill-fill').forEach(el => skillObserver.observe(el));
 
-// === TYPEWRITER EFFECT (Home hero only) ===
+/* === TYPEWRITER EFFECT === */
 const typewriterEl = document.getElementById('typewriter');
 if (typewriterEl) {
   const phrases = [
@@ -109,7 +150,6 @@ if (typewriterEl) {
     }
 
     if (!isDeleting && charIndex === currentPhrase.length) {
-      // Pause at end before deleting
       isDeleting = true;
       typingSpeed = 1800;
     } else if (isDeleting && charIndex === 0) {
@@ -121,11 +161,10 @@ if (typewriterEl) {
     setTimeout(type, typingSpeed);
   }
 
-  // Start after a short delay
   setTimeout(type, 600);
 }
 
-// === AUTO-DISMISS MESSAGES ===
+/* === AUTO-DISMISS MESSAGES === */
 setTimeout(() => {
   document.querySelectorAll('.alert').forEach(alert => {
     alert.style.transition = 'opacity 0.5s ease';
