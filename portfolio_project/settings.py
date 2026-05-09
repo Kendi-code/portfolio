@@ -11,11 +11,12 @@ SECRET_KEY = config('SECRET_KEY', default='your-secret-key-change-this-in-produc
 DEBUG = config('DEBUG', default=False, cast=bool)
 # DEBUG = True
 
-ALLOWED_HOSTS = [
-    'kendi-code.up.railway.app',
-    'localhost',
-    '127.0.0.1',
-]
+# ALLOWED_HOSTS = [
+#     'kendi-code.up.railway.app',
+#     'localhost',
+#     '127.0.0.1',
+# ]
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -27,6 +28,7 @@ INSTALLED_APPS = [
     'portfolio',
     'blog',
     'dashboard',
+    'whitenoise.runserver_nostatic',
 ]
 
 MIDDLEWARE = [
