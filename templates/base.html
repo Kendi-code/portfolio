@@ -33,33 +33,31 @@
   <nav class="navbar" id="navbar">
     <a href="{% url 'home' %}" class="nav-logo">KENDI-CODE<span>.</span></a>
 
-    <ul class="nav-links" id="navLinks">
-      <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a></li>
-      <li><a href="{% url 'about' %}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a></li>
-      <li><a href="{% url 'projects' %}" class="{% if request.resolver_match.url_name == 'projects' %}active{% endif %}">Projects</a></li>
-      <li><a href="{% url 'blog_list' %}" class="{% if request.resolver_match.url_name == 'blog_list' %}active{% endif %}">Blog</a></li>
-      <li><a href="{% url 'contact' %}" class="nav-cta {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a></li>
-
-      <!-- Theme toggle inside mobile menu -->
-      <li class="mobile-theme-item">
-        <div class="theme-toggle">
-          <button class="theme-btn" data-mode="light">Light</button>
-          <button class="theme-btn" data-mode="system">Auto</button>
-          <button class="theme-btn" data-mode="dark">Dark</button>
-        </div>
-      </li>
-    </ul>
-
-    <!-- Theme toggle desktop navbar -->
-    <div class="theme-toggle theme-toggle-desktop" id="themeToggle">
+   <ul class="nav-links" id="navLinks">
+  <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a></li>
+  <li><a href="{% url 'about' %}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a></li>
+  <li><a href="{% url 'projects' %}" class="{% if request.resolver_match.url_name == 'projects' %}active{% endif %}">Projects</a></li>
+  <li><a href="{% url 'blog_list' %}" class="{% if request.resolver_match.url_name == 'blog_list' %}active{% endif %}">Blog</a></li>
+  <li><a href="{% url 'contact' %}" class="nav-cta {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a></li>
+  <li class="mobile-theme-item">
+    <div class="theme-toggle">
       <button class="theme-btn" data-mode="light">Light</button>
       <button class="theme-btn" data-mode="system">Auto</button>
       <button class="theme-btn" data-mode="dark">Dark</button>
     </div>
+  </li>
+</ul>
 
-    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
+<!-- Desktop toggle — outside the ul -->
+<div class="theme-toggle theme-toggle-desktop" id="themeToggle">
+  <button class="theme-btn" data-mode="light">Light</button>
+  <button class="theme-btn" data-mode="system">Auto</button>
+  <button class="theme-btn" data-mode="dark">Dark</button>
+</div>
+
+<button class="hamburger" id="hamburger" aria-label="Toggle menu">
+  <span></span><span></span><span></span>
+</button>
   </nav>
 
   <main>
