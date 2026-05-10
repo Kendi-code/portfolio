@@ -102,17 +102,45 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', default='')
 
-# Cloudinary — only load if credentials are set
+# # Cloudinary — only load if credentials are set
+# CLOUDINARY_CLOUD_NAME = config('CLOUDINARY_CLOUD_NAME', default=None)
+# if CLOUDINARY_CLOUD_NAME:
+#     import cloudinary
+#     INSTALLED_APPS += ['cloudinary_storage', 'cloudinary']
+#     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+#     cloudinary.config(
+#         cloud_name=CLOUDINARY_CLOUD_NAME,
+#         api_key=config('CLOUDINARY_API_KEY', default=''),
+#         api_secret=config('CLOUDINARY_API_SECRET', default=''),
+#     )
+
+# ====================== MEDIA & CLOUDINARY ======================
+MEDIA_URL = 'https://res.cloudinary.com/'   # Important for Cloudinary
+
 CLOUDINARY_CLOUD_NAME = config('CLOUDINARY_CLOUD_NAME', default=None)
+
 if CLOUDINARY_CLOUD_NAME:
-    import cloudinary
-    INSTALLED_APPS += ['cloudinary_storage', 'cloudinary']
+    INSTALLED_APPS = [
+        'cloudinary_storage',
+        'cloudinary',
+    ] + INSTALLED_APPS
+
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+    import cloudinary
     cloudinary.config(
-        cloud_name=CLOUDINARY_CLOUD_NAME,
-        api_key=config('CLOUDINARY_API_KEY', default=''),
-        api_secret=config('CLOUDINARY_API_SECRET', default=''),
+        cloud_name=config('CLOUDINARY_CLOUD_NAME'),
+        api_key=config('CLOUDINARY_API_KEY'),
+        api_secret=config('CLOUDINARY_API_SECRET'),
+        secure=True,
     )
+
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+        'API_KEY': config('CLOUDINARY_API_KEY'),
+        'API_SECRET': config('CLOUDINARY_API_SECRET'),
+        'SECURE': True,
+    }
 
     # ====================== RAILWAY PRODUCTION SETTINGS ======================
 
