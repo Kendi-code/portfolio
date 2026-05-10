@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'portfolio',
     'blog',
     'dashboard',
+    
 ]
 
 MIDDLEWARE = [
@@ -112,3 +113,43 @@ if CLOUDINARY_CLOUD_NAME:
         api_key=config('CLOUDINARY_API_KEY', default=''),
         api_secret=config('CLOUDINARY_API_SECRET', default=''),
     )
+
+    # ====================== RAILWAY PRODUCTION SETTINGS ======================
+
+# ====================== DEBUG ======================
+DEBUG = config('DEBUG', default=True, cast=bool)
+
+# ====================== ENVIRONMENT DETECTION ======================
+IS_PRODUCTION = not DEBUG
+
+# ====================== SECURITY & HOST SETTINGS ======================
+if IS_PRODUCTION:
+    ALLOWED_HOSTS = ['kendi-code.up.railway.app', '.up.railway.app']
+
+    CSRF_TRUSTED_ORIGINS = [
+        'https://kendi-code.up.railway.app',
+        'https://*.up.railway.app',
+    ]
+
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+
+else:
+    # Local Development
+    ALLOWED_HOSTS = ['*']
+
+    CSRF_TRUSTED_ORIGINS = [
+        'http://127.0.0.1',
+        'http://localhost',
+        'http://localhost:8000',
+    ]
+
+    SECURE_SSL_REDIRECT = False
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
