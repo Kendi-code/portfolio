@@ -128,8 +128,8 @@ if (typewriterEl) {
   const phrases = [
     'Full Stack Developer',
     'Python & Django Builder',
-    'Electrical Engineering Student @ FUTO',
-    'Frontend Developer',
+    'EE Student @ FUTO',
+    'Frontend Craftsman',
   ];
   let phraseIndex = 0;
   let charIndex   = 0;

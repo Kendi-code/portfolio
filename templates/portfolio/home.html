@@ -100,11 +100,6 @@
   <div class="posts-grid">
     {% for post in posts %}
     <a href="{% url 'blog_detail' post.slug %}" class="post-card reveal">
-      {% if post.image %}
-      <div class="post-card-image">
-        <img src="{{ post.image.url }}" alt="{{ post.title }}">
-      </div>
-      {% endif %}
       <span class="post-date">{{ post.created_at|date:"d M Y" }}</span>
       <h3>{{ post.title }}</h3>
       <p>{{ post.excerpt }}</p>
@@ -125,9 +120,3 @@
 </section>
 
 {% endblock %}
-
-{% if post.image %}
-<div class="blog-hero-image">
-  <img src="{{ post.image.url }}" alt="{{ post.title }}">
-</div>
-{% endif %}
