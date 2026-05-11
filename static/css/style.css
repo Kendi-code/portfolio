@@ -76,6 +76,11 @@ body::after {
   left: var(--cx, 50%);
 }
 
+@media (hover: none) and (pointer: coarse) {
+  body::after { display: none; }
+  body { cursor: auto; }
+}
+
 /* === NOISE TEXTURE OVERLAY === */
 .noise-overlay {
   position: fixed;
