@@ -19,11 +19,11 @@ IS_PRODUCTION = not DEBUG
 # =============================================
 if IS_PRODUCTION:
     ALLOWED_HOSTS = [
-        'portfolio-production-b562.up.railway.app',
+        'kendi-code.up.railway.app',
         '.up.railway.app',
     ]
     CSRF_TRUSTED_ORIGINS = [
-        'https://portfolio-production-b562.up.railway.app',
+        'https://kendi-code.up.railway.app',
         'https://*.up.railway.app',
     ]
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
