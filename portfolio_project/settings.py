@@ -5,12 +5,46 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# =============================================
+# SECURITY
+# =============================================
 SECRET_KEY = config('SECRET_KEY', default='your-secret-key-change-this-in-production')
 
-# DEBUG = config('DEBUG', default=False, cast=bool)
-DEBUG = True
-ALLOWED_HOSTS = ['*']
+DEBUG = config('DEBUG', default=False, cast=bool)
 
+IS_PRODUCTION = not DEBUG
+
+# =============================================
+# HOSTS & CSRF
+# =============================================
+if IS_PRODUCTION:
+    ALLOWED_HOSTS = [
+        'portfolio-production-b562.up.railway.app',
+        '.up.railway.app',
+    ]
+    CSRF_TRUSTED_ORIGINS = [
+        'https://portfolio-production-b562.up.railway.app',
+        'https://*.up.railway.app',
+    ]
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    # Do NOT set SECURE_SSL_REDIRECT = True on Railway
+    # Railway handles SSL termination itself
+    SECURE_SSL_REDIRECT = False
+else:
+    ALLOWED_HOSTS = ['*']
+    CSRF_TRUSTED_ORIGINS = [
+        'http://127.0.0.1:8000',
+        'http://localhost:8000',
+    ]
+    SECURE_SSL_REDIRECT = False
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
+
+# =============================================
+# INSTALLED APPS
+# =============================================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -21,9 +55,11 @@ INSTALLED_APPS = [
     'portfolio',
     'blog',
     'dashboard',
-    
 ]
 
+# =============================================
+# MIDDLEWARE
+# =============================================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -55,7 +91,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'portfolio_project.wsgi.application'
 
-# Database — uses Supabase in production, SQLite locally
+# =============================================
+# DATABASE
+# =============================================
 DATABASE_URL = config('DATABASE_URL', default=None)
 if DATABASE_URL:
     DATABASES = {
@@ -69,6 +107,9 @@ else:
         }
     }
 
+# =============================================
+# PASSWORD VALIDATION
+# =============================================
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -76,24 +117,53 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+# =============================================
+# INTERNATIONALISATION
+# =============================================
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Africa/Lagos'
 USE_I18N = True
 USE_TZ = True
 
-# Static files
+# =============================================
+# STATIC FILES
+# =============================================
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media files
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# =============================================
+# MEDIA FILES
+# Cloudinary used in production if credentials set,
+# local disk used in development
+# =============================================
+CLOUDINARY_CLOUD_NAME = config('CLOUDINARY_CLOUD_NAME', default=None)
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+if CLOUDINARY_CLOUD_NAME:
+    import cloudinary
+    INSTALLED_APPS += ['cloudinary_storage', 'cloudinary']
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    MEDIA_URL = '/media/'
+    cloudinary.config(
+        cloud_name=CLOUDINARY_CLOUD_NAME,
+        api_key=config('CLOUDINARY_API_KEY', default=''),
+        api_secret=config('CLOUDINARY_API_SECRET', default=''),
+        secure=True,
+    )
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
+        'API_KEY': config('CLOUDINARY_API_KEY', default=''),
+        'API_SECRET': config('CLOUDINARY_API_SECRET', default=''),
+        'SECURE': True,
+    }
+else:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = BASE_DIR / 'media'
 
-# Email
+# =============================================
+# EMAIL
+# =============================================
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -102,82 +172,7 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', default='')
 
-# # Cloudinary — only load if credentials are set
-# CLOUDINARY_CLOUD_NAME = config('CLOUDINARY_CLOUD_NAME', default=None)
-# if CLOUDINARY_CLOUD_NAME:
-#     import cloudinary
-#     INSTALLED_APPS += ['cloudinary_storage', 'cloudinary']
-#     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-#     cloudinary.config(
-#         cloud_name=CLOUDINARY_CLOUD_NAME,
-#         api_key=config('CLOUDINARY_API_KEY', default=''),
-#         api_secret=config('CLOUDINARY_API_SECRET', default=''),
-#     )
-
-# ====================== MEDIA & CLOUDINARY ======================
-MEDIA_URL = 'https://res.cloudinary.com/'   # Important for Cloudinary
-
-CLOUDINARY_CLOUD_NAME = config('CLOUDINARY_CLOUD_NAME', default=None)
-
-if CLOUDINARY_CLOUD_NAME:
-    INSTALLED_APPS = [
-        'cloudinary_storage',
-        'cloudinary',
-    ] + INSTALLED_APPS
-
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-    import cloudinary
-    cloudinary.config(
-        cloud_name=config('CLOUDINARY_CLOUD_NAME'),
-        api_key=config('CLOUDINARY_API_KEY'),
-        api_secret=config('CLOUDINARY_API_SECRET'),
-        secure=True,
-    )
-
-    CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
-        'API_KEY': config('CLOUDINARY_API_KEY'),
-        'API_SECRET': config('CLOUDINARY_API_SECRET'),
-        'SECURE': True,
-    }
-
-    # ====================== RAILWAY PRODUCTION SETTINGS ======================
-
-# ====================== DEBUG ======================
-DEBUG = config('DEBUG', default=True, cast=bool)
-
-# ====================== ENVIRONMENT DETECTION ======================
-IS_PRODUCTION = not DEBUG
-
-# ====================== SECURITY & HOST SETTINGS ======================
-if IS_PRODUCTION:
-    ALLOWED_HOSTS = ['kendi-code.up.railway.app', '.up.railway.app']
-
-    CSRF_TRUSTED_ORIGINS = [
-        'https://kendi-code.up.railway.app',
-        'https://*.up.railway.app',
-    ]
-
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    CSRF_COOKIE_SECURE = True
-    SESSION_COOKIE_SECURE = True
-    SECURE_SSL_REDIRECT = True
-
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-
-else:
-    # Local Development
-    ALLOWED_HOSTS = ['*']
-
-    CSRF_TRUSTED_ORIGINS = [
-        'http://127.0.0.1',
-        'http://localhost',
-        'http://localhost:8000',
-    ]
-
-    SECURE_SSL_REDIRECT = False
-    CSRF_COOKIE_SECURE = False
-    SESSION_COOKIE_SECURE = False
+# =============================================
+# MISC
+# =============================================
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
