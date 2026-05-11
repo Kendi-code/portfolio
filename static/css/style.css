@@ -881,3 +881,7 @@ h3 { font-size: 1.2rem; font-weight: 600; }
   .post-row-thumb-placeholder { width: 70px; height: 70px; }
   .blog-hero-image img { height: 300px; }
 }
+@media (hover: none) and (pointer: coarse) {
+  body::after { display: none !important; }
+  body { cursor: auto !important; }
+}
