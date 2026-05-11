@@ -1,15 +1,25 @@
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 
 class Project(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    image = models.ImageField(upload_to='projects/', blank=True, null=True)
+
+    # Store project images in Cloudinary
+    image = CloudinaryField('image', blank=True, null=True)
+
     github_url = models.URLField()
     live_url = models.URLField(blank=True, null=True)
-    tags = models.CharField(max_length=300, help_text="Comma-separated, e.g. Python, Django, HTML")
+    tags = models.CharField(
+        max_length=300,
+        help_text="Comma-separated, e.g. Python, Django, HTML"
+    )
     featured = models.BooleanField(default=False)
-    order = models.IntegerField(default=0, help_text="Lower number shows first")
+    order = models.IntegerField(
+        default=0,
+        help_text="Lower number shows first"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

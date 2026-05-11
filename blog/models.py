@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from cloudinary.models import CloudinaryField
 
 
 class Post(models.Model):
@@ -7,7 +8,10 @@ class Post(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     excerpt = models.CharField(max_length=300)
     body = models.TextField()
-    image = models.ImageField(upload_to='blog/', blank=True, null=True)
+
+    # Cloudinary image field
+    image = CloudinaryField('image', blank=True, null=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     published = models.BooleanField(default=False)
