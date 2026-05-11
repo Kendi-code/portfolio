@@ -76,9 +76,15 @@ body::after {
   left: var(--cx, 50%);
 }
 
-@media (hover: none) and (pointer: coarse) {
+/* @media (hover: none) and (pointer: coarse) {
   body::after { display: none; }
   body { cursor: auto; }
+} */
+
+@media (max-width: 680px) {
+  body::after { display: none !important; }
+  body { cursor: auto !important; }
+  /* ... rest of your mobile styles ... */
 }
 
 /* === NOISE TEXTURE OVERLAY === */
@@ -880,8 +886,4 @@ h3 { font-size: 1.2rem; font-weight: 600; }
   .post-row-thumb { width: 70px; height: 70px; }
   .post-row-thumb-placeholder { width: 70px; height: 70px; }
   .blog-hero-image img { height: 300px; }
-}
-@media (hover: none) and (pointer: coarse) {
-  body::after { display: none !important; }
-  body { cursor: auto !important; }
 }
