@@ -27,6 +27,7 @@ if IS_PRODUCTION:
         'https://kendi-code.up.railway.app',
         'https://*.up.railway.app',
         'https://*.vercel.app',           # ← add this for Vercel
+        'https://kendi-code.vercel.app',
     ]
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     CSRF_COOKIE_SECURE = True
@@ -179,3 +180,6 @@ DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', default='')
 # =============================================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+if 'VERCEL' in os.environ:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+    DEBUG = True
