@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "buildCommand": "chmod +x setup.sh && ./setup.sh",
   "builds": [
     {
       "src": "portfolio_project/wsgi.py",
