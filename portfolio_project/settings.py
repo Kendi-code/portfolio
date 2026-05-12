@@ -178,3 +178,4 @@ DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', default='')
 # MISC
 # =============================================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
