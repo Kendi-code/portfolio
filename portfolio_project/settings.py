@@ -21,10 +21,12 @@ if IS_PRODUCTION:
     ALLOWED_HOSTS = [
         'kendi-code.up.railway.app',
         '.up.railway.app',
+        '.vercel.app',
     ]
     CSRF_TRUSTED_ORIGINS = [
         'https://kendi-code.up.railway.app',
         'https://*.up.railway.app',
+        'https://*.vercel.app',           # ← add this for Vercel
     ]
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     CSRF_COOKIE_SECURE = True
