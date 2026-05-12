@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "chmod +x setup.sh && ./setup.sh",
   "builds": [
     {
       "src": "portfolio_project/wsgi.py",
@@ -9,12 +8,16 @@
         "maxLambdaSize": "15mb",
         "runtime": "python3.13"
       }
+    },
+    {
+      "src": "staticfiles/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/static/(.*)",
-      "dest": "/static/$1"
+      "dest": "/staticfiles/$1"
     },
     {
       "src": "/(.*)",
