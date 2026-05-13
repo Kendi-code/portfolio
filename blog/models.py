@@ -5,7 +5,7 @@ from cloudinary.models import CloudinaryField
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
     excerpt = models.CharField(max_length=300)
     body = models.TextField()
 
